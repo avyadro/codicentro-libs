@@ -11,22 +11,22 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.test.failure.ignore>true</maven.test.failure.ignore>
         <spring.framework.version>4.1.5.RELEASE</spring.framework.version>
-        <hibernate.version>4.3.8.Final</hibernate.version>
+        <hibernate.version>4.2.19.Final</hibernate.version>
     </properties>
-     <distributionManagement>
+    <distributionManagement>
         <repository>
             <id>arm-deploy</id>
             <name>Nexus Managed Releases Repository</name>
             <uniqueVersion>false</uniqueVersion>
             <!-- url>http://olaf.planetmedia.com.mx/arm/content/repositories/releases/</url -->      
-            <url>http://201.157.37.214/arm/content/repositories/releases/</url>             
+            <url>http://arm.e-actinver.com.mx/content/repositories/releases/</url>             
         </repository>
         <snapshotRepository>
             <id>arm-deploy</id>
             <uniqueVersion>false</uniqueVersion>            
             <name>Nexus Managed Snapshot Repository</name>
             <!-- url>http://olaf.planetmedia.com.mx/arm/content/repositories/snapshots/</url -->
-            <url>http://201.157.37.214/arm/content/repositories/snapshots/</url>       
+            <url>http://arm.e-actinver.com.mx/content/repositories/snapshots/</url>       
         </snapshotRepository>
     </distributionManagement>
     <build>

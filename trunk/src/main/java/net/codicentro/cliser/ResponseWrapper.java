@@ -503,6 +503,12 @@ public class ResponseWrapper implements Serializable {
     public static <Entity> Map<String, Object> failed(String message) {
         return success(null, message, null, false, false);
     }
+    
+    public static <Entity> Map<String, Object> failed(String message,Entity entity) {
+        List<Entity> entities = new ArrayList<Entity>();
+        entities.add(entity);
+        return success(null, message, entities, false, true);
+    }
 
     /**
      *

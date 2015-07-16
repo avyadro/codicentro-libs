@@ -19,6 +19,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import org.hibernate.criterion.DetachedCriteria;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface CliserDAO {
 
@@ -28,14 +30,15 @@ public interface CliserDAO {
      * @param entity
      * @return
      */
+    @Transactional(propagation = Propagation.REQUIRED)
     public <TEntity> TEntity persist(TEntity entity);
 
     /**
      *
      * @param <TEntity>
      * @param entity
-     * @return
      */
+    @Transactional(propagation = Propagation.REQUIRED)
     public <TEntity> void delete(final TEntity entity);
 
     /**
@@ -43,8 +46,10 @@ public interface CliserDAO {
      * @param <TEntity>
      * @param entity
      */
+    @Transactional(propagation = Propagation.REQUIRED)
     public <TEntity> void delete(final TEntity[] entity);
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public <TEntity> void persist(Collection<TEntity> entities);
 
     /**
@@ -53,6 +58,7 @@ public interface CliserDAO {
      * @param entityClass
      * @return
      */
+    @Transactional(readOnly = true)
     public <TEntity> List<TEntity> find(final Class<TEntity> entityClass);
 
     /**
@@ -62,6 +68,7 @@ public interface CliserDAO {
      * @param id
      * @return
      */
+    @Transactional(readOnly = true)
     public <TEntity> TEntity load(final Class<TEntity> entityClass, final Serializable id);
 
     /**
@@ -71,6 +78,7 @@ public interface CliserDAO {
      * @param id
      * @return
      */
+    @Transactional(readOnly = true)
     public <TEntity> TEntity get(final Class<TEntity> entityClass, final Serializable id);
 
     /**
@@ -79,6 +87,7 @@ public interface CliserDAO {
      * @param hql
      * @return
      */
+    @Transactional(readOnly = true)
     public <TEntity> List<TEntity> find(final String hql);
 
     /**
@@ -88,6 +97,7 @@ public interface CliserDAO {
      * @param values
      * @return
      */
+    @Transactional(readOnly = true)
     public <TEntity> List<TEntity> find(final String hql, final Object... values);
 
     /**
@@ -95,8 +105,16 @@ public interface CliserDAO {
      * @param sql
      * @return
      */
+    @Transactional(readOnly = true)
     public List<?> find(final StringBuilder sql);
 
+    /**
+     *
+     * @param sql
+     * @param scalars
+     * @return
+     */
+    @Transactional(readOnly = true)
     public List<?> find(final StringBuilder sql, final Scalar[] scalars);
 
     /**
@@ -105,14 +123,50 @@ public interface CliserDAO {
      * @param params
      * @return
      */
+    @Transactional(readOnly = true)
     public List<?> find(final StringBuilder sql, final Object[] params);
 
+    /**
+     *
+     * @param sql
+     * @param params
+     * @param scalars
+     * @return
+     */
+    @Transactional(readOnly = true)
     public List<?> find(final StringBuilder sql, final Object[] params, final Scalar[] scalars);
 
+    /**
+     *
+     * @param <TEntity>
+     * @param eClazz
+     * @param sql
+     * @return
+     */
+    @Transactional(readOnly = true)
     public <TEntity> List<TEntity> find(final Class<TEntity> eClazz, final StringBuilder sql);
 
+    /**
+     *
+     * @param <TEntity>
+     * @param eClazz
+     * @param sql
+     * @param params
+     * @return
+     */
+    @Transactional(readOnly = true)
     public <TEntity> List<TEntity> find(final Class<TEntity> eClazz, final StringBuilder sql, final Object... params);
 
+    /**
+     *
+     * @param <TEntity>
+     * @param eClazz
+     * @param sql
+     * @param params
+     * @param scalars
+     * @return
+     */
+    @Transactional(readOnly = true)
     public <TEntity> List<TEntity> find(final Class<TEntity> eClazz, final StringBuilder sql, final Object[] params, final Scalar[] scalars);
 
     /**
@@ -121,6 +175,7 @@ public interface CliserDAO {
      * @param criteria
      * @return
      */
+    @Transactional(readOnly = true)
     public <TEntity> List<TEntity> find(final DetachedCriteria criteria);
 
     /**
@@ -131,6 +186,7 @@ public interface CliserDAO {
      * @param limit
      * @return
      */
+    @Transactional(readOnly = true)
     public <TEntity> List<TEntity> find(final DetachedCriteria criteria, final Integer start, final Integer limit);
 
     /**
@@ -141,8 +197,16 @@ public interface CliserDAO {
      * @param limit
      * @return
      */
+    @Transactional(readOnly = true)
     public <TEntity> List<TEntity> find(final TEntity entity, final Integer start, final Integer limit);
 
+    /**
+     *
+     * @param <TEntity>
+     * @param entity
+     * @return
+     */
+    @Transactional(readOnly = true)
     public <TEntity> List<TEntity> find(final TEntity entity);
 
     /**
@@ -152,6 +216,7 @@ public interface CliserDAO {
      * @param values
      * @return
      */
+    @Transactional(readOnly = true)
     public <TEntity> List<TEntity> findByQueryName(final String queryName, final Map<String, Object> values);
 
     /**
@@ -159,6 +224,7 @@ public interface CliserDAO {
      * @param hql
      * @return
      */
+    @Transactional(propagation = Propagation.REQUIRED)
     public int execute(final String hql);
 
     /**
@@ -167,6 +233,7 @@ public interface CliserDAO {
      * @param value
      * @return
      */
+    @Transactional(propagation = Propagation.REQUIRED)
     public int execute(final String hql, final Object value);
 
     /**
@@ -175,6 +242,7 @@ public interface CliserDAO {
      * @param values
      * @return
      */
+    @Transactional(propagation = Propagation.REQUIRED)
     public int execute(final String hql, final Object... values);
 
     /**
@@ -182,6 +250,7 @@ public interface CliserDAO {
      * @param sql
      * @return
      */
+    @Transactional(propagation = Propagation.REQUIRED)
     public int execute(final StringBuilder sql);
 
     /**
@@ -190,6 +259,7 @@ public interface CliserDAO {
      * @param param
      * @return
      */
+    @Transactional(propagation = Propagation.REQUIRED)
     public int execute(final StringBuilder sql, final Object param);
 
     /**
@@ -198,5 +268,6 @@ public interface CliserDAO {
      * @param params
      * @return
      */
+    @Transactional(propagation = Propagation.REQUIRED)
     public int execute(final StringBuilder sql, final Object... params);
 }

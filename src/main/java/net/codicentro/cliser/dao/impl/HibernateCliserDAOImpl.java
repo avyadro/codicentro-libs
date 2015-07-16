@@ -23,23 +23,21 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.StatelessSession;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public abstract class HibernateCliserDAOImpl extends HibernateDaoSupport implements CliserDAO {
 
-    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public <TEntity> void delete(final TEntity entity) {
         getHibernateTemplate().delete(entity);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public <TEntity> void delete(final TEntity[] entities) {
         for (TEntity entity : entities) {
@@ -47,45 +45,44 @@ public abstract class HibernateCliserDAOImpl extends HibernateDaoSupport impleme
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public <TEntity> TEntity persist(TEntity entity) {
         getHibernateTemplate().saveOrUpdate(entity);
         return entity;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public <TEntity> void persist(Collection<TEntity> entities) {
-        getHibernateTemplate().saveOrUpdate(entities);
+        StatelessSession session = getSessionFactory().openStatelessSession();
+        Transaction tx = session.beginTransaction();
+        for (TEntity entity : entities) {
+            getHibernateTemplate().saveOrUpdate(entity);
+        }
+        tx.commit();
+        session.close();
     }
 
-    @Transactional(readOnly = true)
     @Override
     public <TEntity> List<TEntity> find(final Class<TEntity> entityClass) {
         return getHibernateTemplate().loadAll(entityClass);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public <TEntity> TEntity load(final Class<TEntity> entityClass, final Serializable id) {
         return getHibernateTemplate().load(entityClass, id);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public <TEntity> TEntity get(final Class<TEntity> entityClass, final Serializable id) {
         return getHibernateTemplate().get(entityClass, id);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public <TEntity> List<TEntity> find(final String hql) {
         final List<TEntity> entities = (List<TEntity>) getHibernateTemplate().find(hql);
         return entities;
     }
 
-    @Transactional(readOnly = true)
     @Override
     public <TEntity> List<TEntity> find(final DetachedCriteria criteria, final Integer start, final Integer limit) {
         return (List<TEntity>) getHibernateTemplate().findByCriteria(criteria, start, limit);
@@ -106,7 +103,6 @@ public abstract class HibernateCliserDAOImpl extends HibernateDaoSupport impleme
         return getHibernateTemplate().findByExample(entity);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public <TEntity> List<TEntity> find(final String hql, final Object... values) {
         return (List<TEntity>) getHibernateTemplate().find(hql, values);
